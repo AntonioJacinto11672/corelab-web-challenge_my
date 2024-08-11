@@ -1,0 +1,26 @@
+@import "./styles/variaveis";
+@font-face {
+  font-family: Inter;
+  src: url("../public/Inter_18pt-Light.ttf");
+}
+
+body {
+  margin: 0;
+  font-family: Inter;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  padding: 0px;
+  list-style: none;
+  font-size: 1.2rem;
+  
+  
+
+  background-color: var(--Gray-1);
+  opacity: 1px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

@@ -1,0 +1,183 @@
+@import '../../styles/break-points.scss';
+
+@font-face {
+  font-family: Inter;
+  src: url("../../../public/Inter_18pt-Light.ttf");
+}
+
+.Tasks {
+  display: flex;
+  flex-direction: column;
+  padding: auto;
+  gap: 32px;
+
+
+  .header {
+    background-color: var(--white-0);
+    display: flex;
+    
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: nowrap;
+    position: sticky;
+    top: 0px;
+    
+    gap: 0px;
+    opacity: 0px;
+    box-shadow: 0px 1px 7px 0px var(--gray-3);
+    padding: 10px;
+    height: 57px;
+    top: -0.01px;
+    gap: 0px;
+    opacity: 0px;
+
+
+
+    .remove {
+      width: 1.2rem;
+      height: 1.2rem;
+      margin: auto 20px;
+    }
+
+
+
+  }
+
+  .menu {
+    display: flex;
+
+    .title {
+      font-family: Inter;
+      color: var(--gray-3);
+      font-size: 1rem;
+      margin: auto;
+      font-weight: 400;
+      line-height: 16.94px;
+      text-align: left;
+    }
+
+    .search {
+      position: relative;
+
+
+      input {
+        display: flex;
+        height: 30px;
+        gap: 0px;
+        border-radius: 3px 0px 0px 0px;
+        border: 1px 0px 0px 0px;
+        opacity: 0px;
+        border: 1px solid var(--gray-4);
+        box-shadow: 1px 1px 3px 0px var(--black-3);
+        margin: auto;
+        padding-left: 10px;
+        outline: none;
+
+        &:focus {
+          outline: blue;
+        }
+
+        &::placeholder {
+          padding: 5px;
+          font-family: Inter;
+          font-weight: 400;
+          line-height: 10.89px;
+          text-align: left;
+
+        }
+      }
+
+      span {
+        position: absolute;
+        display: flex;
+        top: 10px;
+      }
+    }
+
+  }
+
+  .menu div {
+    margin: auto 20px;
+
+
+  }
+
+  .menu div a {
+    display: block;
+
+  }
+
+
+
+  .main {
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+  }
+
+
+
+  @include phone {
+    .search {
+      input {
+        display: flex;
+      }
+
+      span {
+        inset-inline-start: 10rem;
+      }
+
+
+    }
+  }
+
+
+
+
+  @include tablet {
+    .search {
+      input {
+        display: flex;
+        width: 250px;
+      }
+
+      span {
+        inset-inline-start: 15rem;
+      }
+
+
+    }
+  }
+
+  @include laptop {
+    .search {
+      input {
+        display: flex;
+        width: 300px;
+      }
+
+      span {
+        inset-inline-start: 18rem;
+      }
+
+
+    }
+  }
+
+  @include desktop {
+    .search {
+      input {
+        display: flex;
+        width: 530.17px;
+      }
+
+      span {
+        inset-inline-start: 32.5rem;
+      }
+
+
+    }
+  }
+
+  @include desktop-large {}
+}
