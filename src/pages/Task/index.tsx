@@ -3,6 +3,12 @@ import { Button, Card, Search, FormAddNote } from "../../components";
 import styles from "./Tasks.module.scss";
 import { TaskProps } from "../../types/Task";
 
+interface TitleProps {
+  title: string
+}
+const Title = ({ title }: TitleProps) => {
+  return <p>{title}</p>
+}
 
 const TasksPage = () => {
   const [vehicles, setVehicles] = useState<TaskProps[]>([]);
@@ -39,36 +45,14 @@ const TasksPage = () => {
 
       <FormAddNote />
 
+      <Title title="Favoritos" />
 
       <main className={styles.main}>
 
-
-        <section>
-
-          <Card title="Sandero Stepway">
-            <p>Price: 22000</p>
-            <p>Description: Carro usado por 2 anos...</p>
-            <p>Year: 2018</p>
-          </Card>
-
-          <Card title="Sandero Stepway">
-            <p>Price: 22000</p>
-            <p>Description: Carro usado por 2 anos...</p>
-            <p>Year: 2018</p>
-          </Card>
-
-          <Card title="Sandero Stepway">
-            <p>Price: 22000</p>
-            <p>Description: Carro usado por 2 anos...</p>
-            <p>Year: 2018</p>
-          </Card>
-
-          <Card title="Sandero Stepway">
-            <p>Price: 22000</p>
-            <p>Description: Carro usado por 2 anos...</p>
-            <p>Year: 2018</p>
-          </Card>
-        </section>
+        <Card />
+        <Card />
+        <Card />
+        <Card />
 
       </main>
     </div>
