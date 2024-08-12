@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./CardColor.module.scss";
 import CardColorItems from "../CardColorItems";
 const colorValues = [
@@ -17,6 +17,7 @@ const colorValues = [
 ]
 const CardColor = () => {
     const [color, setColor] = useState<string>()
+    
 
     useEffect(() => {
         

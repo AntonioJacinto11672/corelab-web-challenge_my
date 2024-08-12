@@ -10,14 +10,16 @@
   margin: 20px auto;
   background: var(--white-0);
   box-shadow: 2px 2px 3px 0px rgba(0, 0, 0, 0.251);
-  position: relative;
-  z-index: -30;
+  /* position: relative;
+  z-index: -30; */
 
   .cardHeader {
     display: flex;
     justify-content: space-between;
     border-bottom: 5px solid var(--gray-1);
     align-items: center;
+
+
 
     h1 {
       padding: 15px;
@@ -51,8 +53,7 @@
       font-weight: 400;
       font-size: 13px;
       line-height: 16px;
-
-      color: #4F4F4D;
+      
 
 
     }
@@ -63,6 +64,30 @@
     display: flex;
     justify-content: space-between;
     margin: 10px;
+
+    span {
+      cursor: pointer;
+      padding-left: 10px;
+
+      svg {
+        path {
+          background: red;
+        }
+        &:hover {
+          width: 28.9px;
+          height: 28.9px;
+          top: 624.55px;
+          left: 125.55px;
+          gap: 0px;
+          opacity: 0px;
+          background: #FFE3B3;
+          border-radius: 100%;
+
+        }
+      }
+    }
+
+    .paintBucket {}
   }
 
 

@@ -54,6 +54,16 @@ const TasksPage = () => {
         <Card />
         <Card />
 
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+
       </main>
     </div>
   );
