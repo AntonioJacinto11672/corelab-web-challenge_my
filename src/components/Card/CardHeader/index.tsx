@@ -1,6 +1,6 @@
 import styles from "../Card.module.scss"
 const CardHeader = () => {
-    return (<div onClick={() => {console.log("CardHeader Solution")}}>
+    return (<div onClick={() => { console.log("CardHeader Solution") }}>
         <div className={styles.cardHeader} >
             <h1>Título</h1>
             <svg width="21" height="19" viewBox="0 0 21 19" fill="none" xmlns="http://www.w3.org/2000/svg">

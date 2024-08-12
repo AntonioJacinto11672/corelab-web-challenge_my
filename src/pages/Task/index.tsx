@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Button, Card, Search, FormAddNote } from "../../components";
 import styles from "./Tasks.module.scss";
 import { TaskProps } from "../../types/Task";
+import { api } from "../../service/api.service";
+import axios from "axios";
 
 interface TitleProps {
   title: string
@@ -11,8 +13,21 @@ const Title = ({ title }: TitleProps) => {
 }
 
 const TasksPage = () => {
-  const [vehicles, setVehicles] = useState<TaskProps[]>([]);
+  const [task, setTask] = useState<TaskProps[]>([]);
   const [search, setSearch] = useState<string>("");
+
+  useEffect(() => {
+    loadTask();
+
+  }, [])
+
+
+  async function loadTask() {
+    const response = await api.get("/task")
+    setTask(response.data)
+    console.log(response)
+  }
+
 
 
 
@@ -45,27 +60,17 @@ const TasksPage = () => {
 
       <FormAddNote />
 
-      
-      <Title title="Favoritos" />
-      <main className={styles.main}>
-
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-      </main>
 
       <Title title="Favoritos" />
       <main className={styles.main}>
 
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        { task && task.map((value) => <Card key={value.id} data={value}/>)}
       </main>
 
-     
-      
+  
+
+
+
     </div>
   );
 };
