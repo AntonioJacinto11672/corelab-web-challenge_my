@@ -1,39 +1,102 @@
-.CardColor {
-    display: flex;
-    /* Rectangle 1066 */
+@import "../../../styles/handleColor.module.scss";
 
+.CardColor {
+    position: absolute;
+    /* Rectangle 1066 */
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
     width: 574.61px;
     height: 46.46px;
-    left: 145.48px;
-    top: 657.63px;
     background: #FFFFFF;
     border: 1px solid #D9D9D9;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
     border-radius: 9px;
+    flex-wrap: wrap;
+    margin-top: -2rem;
+    margin-left: 2rem;
 
+    .CardColorContent {
+        .cardColorItens {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
 
-    div {
+            div {
+                cursor: pointer;
+                margin: 5px;
+                display: block;
+                width: 36.71px;
+                height: 36.71px;
+                gap: 0px;
+                opacity: 0px;
+                border-radius: 100%;
+                margin-left: 5px;
 
-        /* Ellipse 1 */
-        border-radius: 100%;
-        width: 7px;
-        height: 7px;
-        border: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 15px;
+                &:focus {
+                    border: 10px solid blue;
+                    border-radius: 100%;
+                }
 
-        div {
-            width: 5px;
-            height: 5px;
-            background: #BAE2FF;
-            border-radius: 100%;
-            border: 100%;
+                &:hover {
+                    border: 2.5px  solid blue;
+                    transition: ease-in;}
+            }
         }
-
     }
 
+}
 
+.colorTeste2 {
+    background-color: $color-1;
+}
+
+
+
+.color1 {
+    background-color: $color-1;
+}
+
+.color2 {
+    background-color: $color-2;
+}
+
+.color3 {
+    background-color: $color-3;
+}
+
+.color4 {
+    background-color: $color-4;
+}
+
+.color5 {
+    background-color: $color-5;
+}
+
+.color6 {
+    background-color: $color-6;
+}
+
+.color7 {
+    background-color: $color-7;
+}
+
+.color8 {
+    background-color: $color-8;
+}
+
+.color9 {
+    background-color: $color-9;
+}
+
+.color10 {
+    background-color: $color-10;
+}
+
+.color11 {
+    background-color: $color-11;
+}
+
+.color12 {
+    background-color: $color-12;
 }
