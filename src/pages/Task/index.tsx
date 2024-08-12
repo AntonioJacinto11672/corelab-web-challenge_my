@@ -7,7 +7,7 @@ interface TitleProps {
   title: string
 }
 const Title = ({ title }: TitleProps) => {
-  return <p>{title}</p>
+  return <p className={styles.TitleTask}>{title}</p>
 }
 
 const TasksPage = () => {
@@ -45,26 +45,27 @@ const TasksPage = () => {
 
       <FormAddNote />
 
+      
       <Title title="Favoritos" />
-
       <main className={styles.main}>
 
         <Card />
         <Card />
         <Card />
         <Card />
-
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-
       </main>
+
+      <Title title="Favoritos" />
+      <main className={styles.main}>
+
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </main>
+
+     
+      
     </div>
   );
 };

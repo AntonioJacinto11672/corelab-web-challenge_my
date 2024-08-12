@@ -12,16 +12,29 @@
   gap: 32px;
 
 
+  .TitleTask {
+    /* Favoritas */
+    flex: none;
+    
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 15px;
+    color: #464646;
+
+
+  }
+
   .header {
     background-color: var(--white-0);
     display: flex;
-    
+
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
     position: sticky;
     top: 0px;
-    
     gap: 0px;
     opacity: 0px;
     box-shadow: 0px 1px 7px 0px var(--gray-3);
@@ -32,7 +45,7 @@
     opacity: 0px;
     box-sizing: content-box;
 
-
+    
 
     .remove {
       width: 1.2rem;
@@ -110,14 +123,6 @@
 
 
 
-  .main {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1500px;
-    margin: 0 auto;
-    grid-gap: 20px;
-  }
-
 
 
   @include phone {
@@ -162,9 +167,23 @@
       span {
         inset-inline-start: 18rem;
       }
-
-
     }
+
+    .TitleTask {
+
+      left: 40.28px;
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 1500px;
+      margin: 0 auto;
+      grid-gap: 20px;
+      overflow: hidden;
+    }
+
+
   }
 
   @include desktop {
@@ -177,10 +196,27 @@
       span {
         inset-inline-start: 32.5rem;
       }
-
-
     }
+
+    .main {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 1500px;
+      margin: 0 auto;
+      grid-gap: 20px;
+      overflow: hidden;
+    }
+
   }
 
-  @include desktop-large {}
+  @include desktop-large {
+    .main {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 1500px;
+      margin: 0 auto;
+      grid-gap: 20px;
+      overflow: hidden;
+    }
+  }
 }
