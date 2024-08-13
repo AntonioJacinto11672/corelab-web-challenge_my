@@ -1,4 +1,4 @@
-import styles from "./Card.module.scss";
+import styles from "../Card.module.scss"
 
 const CardBody = () => {
     return (<div className={styles.cardBody}>

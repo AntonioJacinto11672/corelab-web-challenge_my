@@ -1,11 +1,8 @@
 import { FormEvent, useRef } from "react";
 import "./formAddNote.scss"
 import { api } from "../../service/api.service";
-interface FormAddNoteProps {
 
-}
-
-const FormAddNote: React.FC<FormAddNoteProps> = () => {
+const FormAddNote = () => {
     const nameRef = useRef<HTMLInputElement | null>(null)
     const descriptionRef = useRef<HTMLTextAreaElement | null>(null)
 
