@@ -9,6 +9,7 @@ import CardHeader from "../../components/Card/CardHeader";
 import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
 import CardColor from "../../components/Card/CardColor";
+import CardColorItems from "../../components/Card/CardColorItems";
 
 
 
@@ -50,13 +51,12 @@ const TasksPage = () => {
     const response = await api.post("/task", {
       title: nameRef.current.value,
       description: descriptionRef.current.value,
-      color: "color2",
       isFavorite: isFavorite
     })
 
 
-    setTask(prev => [...prev, response.data])
-
+    /*  setTask(prev => [...prev, response.data]) */
+    loadTask()
     console.log("Os Dados ", response)
     nameRef.current.value = ''
     descriptionRef.current.value = ''
@@ -90,9 +90,14 @@ const TasksPage = () => {
         id: id
       })
 
-      console.log("Responsta", response)
+      //console.log("Responsta", response)
 
-      
+      loadTask()
+
+      if (response.data) {
+
+      }
+
     } catch (error) {
 
     }
@@ -106,6 +111,29 @@ const TasksPage = () => {
   const ToggleIsFavorite = useCallback(() => {
     setIsFavorite((prev) => !prev)
   }, [])
+
+  async function handleCorlor(id: string, color: string) {
+    try {
+
+      console.log("Vai Editar ", color)
+
+      const response = await api.put("/task/color", {
+        id: id,
+        color: color,
+      })
+
+      //console.log("Responsta", response)
+
+      loadTask()
+
+      if (response.data) {
+
+      }
+
+    } catch (error) {
+
+    }
+  }
 
   return (
     <div className={styles.Tasks}>
@@ -157,13 +185,26 @@ const TasksPage = () => {
 
       <Title title="Favoritos" />
       <main className={styles.main}>
-
         {task && task.map((value) => {
-          return <Card key={value.id}>
+          return <Card key={value.id} color={value.color}>
             <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
             <CardBody />
             <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
-            {openCardId === value.id ? <CardColor /> : null} {/* Renderiza condicionalmente */}
+            {openCardId === value.id ?
+              <CardColor key={value.id}>
+                <CardColorItems color="#BAE2FF" onclick={() => handleCorlor(value.id, "#BAE2FF")} />
+                <CardColorItems color="#B9FFDD" onclick={() => handleCorlor(value.id, "#B9FFDD")} />
+                <CardColorItems color="#FFE8AC" onclick={() => handleCorlor(value.id, "#FFE8AC")} />
+                <CardColorItems color="#FFCAB9" onclick={() => handleCorlor(value.id, "#FFCAB9")} />
+                <CardColorItems color="#F99494" onclick={() => handleCorlor(value.id, "#F99494")} />
+                <CardColorItems color="#9DD6FF" onclick={() => handleCorlor(value.id, "#9DD6FF")} />
+                <CardColorItems color="#ECA1FF" onclick={() => handleCorlor(value.id, "#ECA1FF")} />
+                <CardColorItems color="#DAFF8B" onclick={() => handleCorlor(value.id, "#DAFF8B")} />
+                <CardColorItems color="#FFA285" onclick={() => handleCorlor(value.id, "#FFA285")} />
+                <CardColorItems color="#CDCDCD" onclick={() => handleCorlor(value.id, "#CDCDCD")} />
+                <CardColorItems color="#979797" onclick={() => handleCorlor(value.id, "#979797")} />
+                <CardColorItems color="#A99A7C" onclick={() => handleCorlor(value.id, "#A99A7C")} />
+              </CardColor> : null} {/* Renderiza condicionalmente */}
           </Card>
         })}
       </main>
