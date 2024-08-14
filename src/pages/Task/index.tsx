@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Button, Card, Search, FormAddNote } from "../../components";
+import { Card, Search } from "../../components";
 import styles from "./Tasks.module.scss";
 import { TaskProps } from "../../types/Task";
 import { FormEvent, useRef } from "react";
@@ -29,24 +29,23 @@ const TasksPage = () => {
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
 
+
   useEffect(() => {
-    loadTask();
-
-  }, [])
-
+    handleSearch();
+  }, [search]);
 
   async function loadTask() {
+    /* Carregar todas as tarefas */
     const response = await api.get("/task")
     setTask(response.data)
     console.log(response)
   }
 
 
-
   const handleSubmit = async (event: FormEvent) => {
+    /* Cadastrar Tarefas */
     event.preventDefault()
     if (!nameRef.current?.value || !descriptionRef.current?.value) return
-
 
     const response = await api.post("/task", {
       title: nameRef.current.value,
@@ -63,6 +62,7 @@ const TasksPage = () => {
   }
 
   async function handleDelete(id: string) {
+    /* Remover Tarefa */
     try {
       console.log("Vai Apagar")
       await api.delete("/task", {
@@ -82,6 +82,7 @@ const TasksPage = () => {
 
 
   async function handleisFavorito(id: string) {
+    /* Adicionar tarefas aos Favoritos */
     try {
 
       console.log("Vai Editar ", id)
@@ -93,7 +94,6 @@ const TasksPage = () => {
       //console.log("Responsta", response)
 
       loadTask()
-
       if (response.data) {
 
       }
@@ -105,12 +105,16 @@ const TasksPage = () => {
 
 
   const toggleOpen = useCallback((cardId: string) => {
+    /* Abrir o o catão com as cores */
     setOpenCardId((prevId) => (prevId === cardId ? null : cardId)); // Muda o ID do cartão aberto ou fecha se for o mesmo
   }, []);
 
   const ToggleIsFavorite = useCallback(() => {
+    /* Activar favorito ao Cadastrar */
     setIsFavorite((prev) => !prev)
   }, [])
+
+
 
   async function handleCorlor(id: string, color: string) {
     try {
@@ -125,23 +129,41 @@ const TasksPage = () => {
       //console.log("Responsta", response)
 
       loadTask()
+      setOpenCardId(null)
 
       if (response.data) {
 
       }
 
     } catch (error) {
+      console.log(error)
 
     }
   }
 
+  const handleSearch = useCallback(() => {
+    try {
+      /* Pesquisar Valores */
+      if (search.trim() === "") {
+        loadTask(); // Se o campo de pesquisa estiver vazio, carrega todas as tarefas
+      } else {
+        const filteredTasks = task.filter(value =>
+          value.title.toLowerCase().includes(search.toLowerCase()) ||
+          value.description.toLowerCase().includes(search.toLowerCase())
+        );
+        setTask(filteredTasks);
+      }
+    } catch (error) {
+      console.log("Não está a pesquisar", error)
+    }
+  }, [search, task]);
+
   return (
     <div className={styles.Tasks}>
 
+
       <header className={styles.header}>
-
-
-
+        {/* Cabecalho Inicio */}
         <nav>
           <div className={styles.menu}>
             <div className={styles.logo}>
@@ -151,17 +173,20 @@ const TasksPage = () => {
             <div className={styles.title}>CoreNotes</div>
 
             <div className={styles.search}>
-              <Search placeholder="Pesquisar notas" value={search} onChange={() => { }} />
+              <Search placeholder="Pesquisar notas" value={search} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)} />
             </div>
           </div>
 
         </nav>
 
         <img src="/img/remove.svg" alt="Remover" className={styles.remove} />
-
+        {/* Cabeçalho Fim */}
       </header>
 
+
+
       <form action="" method="post" onSubmit={handleSubmit}>
+        {/* Formulário Para Criar Tarefas */}
         <div>
           <input type="text" name="" id="" placeholder="Título" ref={nameRef} />
 
@@ -181,14 +206,16 @@ const TasksPage = () => {
         <div>
           <textarea name="" id="" placeholder="Criar nota..." ref={descriptionRef}></textarea>
         </div>
+        {/*FIm Formulário Para Criar Tarefas */}
       </form>
 
       <Title title="Favoritos" />
+
       <main className={styles.main}>
         {task && task.map((value) => {
           return <Card key={value.id} color={value.color}>
             <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
-            <CardBody />
+            <CardBody data={value} />
             <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
             {openCardId === value.id ?
               <CardColor key={value.id}>

@@ -1,8 +1,14 @@
+import { TaskProps } from "../../../types/Task";
 import styles from "../Card.module.scss"
 
-const CardBody = () => {
+interface CardBodyProps {
+    data: TaskProps
+}
+
+
+const CardBody: React.FC<CardBodyProps> = ({ data }) => {
     return (<div className={styles.cardBody}>
-        <p>Clique ou arraste o arquivo para esta área para fazer upload</p>
+        <p> {data.description} </p>
     </div>);
 }
 
