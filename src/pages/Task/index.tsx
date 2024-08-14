@@ -10,6 +10,7 @@ import CardBody from "../../components/Card/CardBody";
 import CardFooter from "../../components/Card/CardFooter";
 import CardColor from "../../components/Card/CardColor";
 import CardColorItems from "../../components/Card/CardColorItems";
+import { colors } from "../../util/colors";
 
 
 
@@ -209,30 +210,45 @@ const TasksPage = () => {
         {/*FIm Formulário Para Criar Tarefas */}
       </form>
 
-      <Title title="Favoritos" />
+      <main className={styles.main}>
+        <p style={{ flex: 'none' }}>Favorito</p>
+        {task && task.map((value) => {
+
+          if (value.isFavorite) {
+            return <>
+              <Card key={value.id} color={value.color}>
+                <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
+                <CardBody data={value} />
+                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
+                {openCardId === value.id ?
+                  <CardColor key={value.id}>
+                    {colors.map((color) => <CardColorItems key={value.id} color={color} onclick={() => handleCorlor(value.id, color)} />)}
+                  </CardColor> : null} {/* Renderiza condicionalmente */}
+              </Card>
+            </>
+          }
+
+        })}
+      </main>
 
       <main className={styles.main}>
+        <p style={{ flex: 'none' }}>Outros</p>
         {task && task.map((value) => {
-          return <Card key={value.id} color={value.color}>
-            <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
-            <CardBody data={value} />
-            <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
-            {openCardId === value.id ?
-              <CardColor key={value.id}>
-                <CardColorItems color="#BAE2FF" onclick={() => handleCorlor(value.id, "#BAE2FF")} />
-                <CardColorItems color="#B9FFDD" onclick={() => handleCorlor(value.id, "#B9FFDD")} />
-                <CardColorItems color="#FFE8AC" onclick={() => handleCorlor(value.id, "#FFE8AC")} />
-                <CardColorItems color="#FFCAB9" onclick={() => handleCorlor(value.id, "#FFCAB9")} />
-                <CardColorItems color="#F99494" onclick={() => handleCorlor(value.id, "#F99494")} />
-                <CardColorItems color="#9DD6FF" onclick={() => handleCorlor(value.id, "#9DD6FF")} />
-                <CardColorItems color="#ECA1FF" onclick={() => handleCorlor(value.id, "#ECA1FF")} />
-                <CardColorItems color="#DAFF8B" onclick={() => handleCorlor(value.id, "#DAFF8B")} />
-                <CardColorItems color="#FFA285" onclick={() => handleCorlor(value.id, "#FFA285")} />
-                <CardColorItems color="#CDCDCD" onclick={() => handleCorlor(value.id, "#CDCDCD")} />
-                <CardColorItems color="#979797" onclick={() => handleCorlor(value.id, "#979797")} />
-                <CardColorItems color="#A99A7C" onclick={() => handleCorlor(value.id, "#A99A7C")} />
-              </CardColor> : null} {/* Renderiza condicionalmente */}
-          </Card>
+
+          if (!value.isFavorite) {
+            return <>
+              <Card key={value.id} color={value.color}>
+                <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
+                <CardBody data={value} />
+                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
+                {openCardId === value.id ?
+                  <CardColor key={value.id}>
+                    {colors.map((color) => <CardColorItems key={value.id} color={color} onclick={() => handleCorlor(value.id, color)} />)}
+                  </CardColor> : null} {/* Renderiza  AS Cores que não são favoritas */}
+              </Card>
+            </>
+          }
+
         })}
       </main>
 
