@@ -1,0 +1,47 @@
+@import "../../../styles/handleColor.module.scss";
+
+.CardColor {
+    position: absolute;
+    /* Rectangle 1066 */
+    box-sizing: border-box;
+    display: flex;
+    background: #FFFFFF;
+    border: 1px solid #D9D9D9;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+    border-radius: 9px;
+    flex-wrap: wrap;
+    margin-top: 420px;
+    margin-left: 3.5rem;
+    margin-right: 30px;
+
+    .CardColorContent {
+        .cardColorItens {
+            display: flex;
+            flex-wrap: wrap;
+            div {
+                cursor: pointer;
+                margin: 5px;
+                display: block;
+                width: 36.71px;
+                height: 36.71px;
+                opacity: 0px;
+                border-radius: 100%;
+                margin-left: 5px;
+
+                &:focus {
+                    border: 10px solid blue;
+                    border-radius: 100%;
+                }
+
+                &:hover {
+                    border: 2.5px  solid blue;
+                    transition: ease-in;}
+            }
+        }
+    }
+
+}
+
+.colorTeste2 {
+    background-color: $color-1;
+}
