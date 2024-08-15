@@ -122,14 +122,14 @@ Nota: O projecto utilizou o React  + Vite para inicialização, o projecto vai i
 
 
 
-# Usar a apicação
+# Vídeo explicado como utilizar
 
-## Criar Tarefa
-- Escreve um titulo
-- Escreva uma nota
-  Para enviar Vai até ao tittulo preciona Entrer
   
-![criarTarefa](https://github.com/user-attachments/assets/9be9d64a-ab49-407e-b82f-6e4f5c6fb682)
+
+
+https://github.com/user-attachments/assets/d974f6fb-bcde-4b5e-893a-070bb788e7d5
+
+
 
 
 
