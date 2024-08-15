@@ -11,6 +11,9 @@ import CardFooter from "../../components/Card/CardFooter";
 import CardColor from "../../components/Card/CardColor";
 import CardColorItems from "../../components/Card/CardColorItems";
 import { colors } from "../../util/colors";
+import toast, { Toaster } from 'react-hot-toast';
+
+
 
 
 const TasksPage = () => {
@@ -52,6 +55,9 @@ const TasksPage = () => {
         isFavorite: isFavorite
       })
 
+      toast.success("Tarefa Editada com sucesso!")
+
+
       setOnUpdate(false);
       setIsFavorite(false);
       setidOnUpdate(null)
@@ -64,11 +70,15 @@ const TasksPage = () => {
         description: description,
         isFavorite: isFavorite,
       })
+
+      toast.success("Cadastrado com sucesso!")
     }
 
     /*  setTask(prev => [...prev, response.data]) */
+
+    
+
     loadTask()
-    console.log("Os Dados ", response)
     setTitle('')
     setDescription('')
   }
@@ -76,19 +86,21 @@ const TasksPage = () => {
   async function handleDelete(id: string) {
     /* Remover Tarefa */
     try {
-      console.log("Vai Apagar")
       await api.delete("/task", {
         params: {
           id: id
         }
       })
 
-      console.log("Id do log", id)
+      
+
 
       const allTask = task.filter((task) => task.id !== id)
       setTask(allTask)
-    } catch (error) {
 
+      toast.remove("Tarefa removida com succeso!")
+    } catch (error) {
+      console.log("Erro ",error)
     }
   }
 
@@ -97,7 +109,7 @@ const TasksPage = () => {
     /* Adicionar tarefas aos Favoritos */
     try {
 
-      console.log("Vai Editar ", id)
+ 
 
       const response = await api.put("/task/favorite", {
         id: id
@@ -131,7 +143,7 @@ const TasksPage = () => {
   async function handleCorlor(id: string, color: string) {
     try {
 
-      console.log("Vai Editar ", color)
+     
 
       const response = await api.put("/task/color", {
         id: id,
