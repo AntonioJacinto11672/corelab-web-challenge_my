@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Card, Search } from "../../components";
 import styles from "./Tasks.module.scss";
 import { TaskProps } from "../../types/Task";
-import { FormEvent, useRef } from "react";
+import { FormEvent } from "react";
 import "../../components/FormAddNote/formAddNote.scss"
 import { api } from "../../service/api.service";
 import CardHeader from "../../components/Card/CardHeader";
@@ -13,22 +13,16 @@ import CardColorItems from "../../components/Card/CardColorItems";
 import { colors } from "../../util/colors";
 
 
-
-interface TitleProps {
-  title: string
-}
-
-const Title = ({ title }: TitleProps) => {
-  return <p className={styles.TitleTask}>{title}</p>
-}
-
 const TasksPage = () => {
   const [task, setTask] = useState<TaskProps[]>([]);
   const [search, setSearch] = useState<string>("");
-  const nameRef = useRef<HTMLInputElement | null>(null)
-  const descriptionRef = useRef<HTMLTextAreaElement | null>(null)
+  const [idOnUpdate, setidOnUpdate] = useState<string | null>(null)
+  const [title, setTitle] = useState<string>("")
+  const [description, setDescription] = useState<string>("")
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const [isFavorite, setIsFavorite] = useState<boolean>(false)
+  const [onUpdate, setOnUpdate] = useState<boolean>()
+  const [onUpdateData, setOnUpdateData] = useState<TaskProps>()
 
 
   useEffect(() => {
@@ -46,20 +40,37 @@ const TasksPage = () => {
   const handleSubmit = async (event: FormEvent) => {
     /* Cadastrar Tarefas */
     event.preventDefault()
-    if (!nameRef.current?.value || !descriptionRef.current?.value) return
+    if (!title || !description) return
 
-    const response = await api.post("/task", {
-      title: nameRef.current.value,
-      description: descriptionRef.current.value,
-      isFavorite: isFavorite
-    })
+    let response = null
+    if (onUpdate) {
 
+      response = await api.put("/task", {
+        id: idOnUpdate,
+        title: title,
+        description: description,
+        isFavorite: isFavorite
+      })
+
+      setOnUpdate(false);
+      setIsFavorite(false);
+      setidOnUpdate(null)
+      setTitle("");
+      setDescription("");
+      setOnUpdate(true);
+    } else {
+      response = await api.post("/task", {
+        title: title,
+        description: description,
+        isFavorite: isFavorite,
+      })
+    }
 
     /*  setTask(prev => [...prev, response.data]) */
     loadTask()
     console.log("Os Dados ", response)
-    nameRef.current.value = ''
-    descriptionRef.current.value = ''
+    setTitle('')
+    setDescription('')
   }
 
   async function handleDelete(id: string) {
@@ -159,6 +170,15 @@ const TasksPage = () => {
     }
   }, [search, task]);
 
+  const handleUpdate = useCallback((data: TaskProps) => {
+    setOnUpdate(false);
+    setOnUpdateData(data);
+    setIsFavorite(data.isFavorite);
+    setidOnUpdate(data.id)
+    setTitle(data.title);
+    setDescription(data.description);
+    setOnUpdate(true);
+  }, [])
   return (
     <div className={styles.Tasks}>
 
@@ -186,29 +206,69 @@ const TasksPage = () => {
 
 
 
-      <form action="" method="post" onSubmit={handleSubmit}>
-        {/* Formulário Para Criar Tarefas */}
-        <div>
-          <input type="text" name="" id="" placeholder="Título" ref={nameRef} />
+      {!onUpdate ?
+        <form action="" method="post" onSubmit={handleSubmit}>
+          {/* Formulário Para Criar Tarefas */}
+          <div>
+            <input type="text" name="" id="" placeholder="Título" value={title}
+              onChange={(e) => setTitle(e.target.value)} />
+            {isFavorite ?
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
+                <path d="M7.47998 7.50375L2.32617 8.29666L6.88529 11.9638L5.69595 17.5141L9.85865 14.3425L15.0125 17.5141L13.6249 11.9638L17.4903 8.29666L12.2373 7.50375L9.85865 2.34995L7.47998 7.50375Z" fill="#FFA000" />
+                <path d="M9.93799 13.7112L6.29971 15.9077L7.25766 11.7662L4.04514 8.97947L8.28335 8.62145L9.93799 4.71223L11.5926 8.62145L15.8308 8.97947L12.6183 11.7662L13.5763 15.9077M19.6143 7.76026L12.657 7.17001L9.93799 0.754639L7.21896 7.17001L0.261719 7.76026L5.53529 12.3371L3.95805 19.1396L9.93799 15.5303L15.9179 19.1396L14.331 12.3371L19.6143 7.76026Z" fill="#455A64" />
+              </svg>
+              :
+              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
+                <path d="M9.93799 13.2503L6.29971 15.4469L7.25766 11.3054L4.04514 8.51865L8.28335 8.16063L9.93799 4.25142L11.5926 8.16063L15.8308 8.51865L12.6183 11.3054L13.5763 15.4469M19.6143 7.29944L12.657 6.70919L9.93799 0.293823L7.21896 6.70919L0.261719 7.29944L5.53529 11.8763L3.95805 18.6787L9.93799 15.0695L15.9179 18.6787L14.331 11.8763L19.6143 7.29944Z" fill="#455A64" />
+              </svg>
+            }
+
+          </div>
+          <div>
+            <textarea name="" id="" placeholder="Criar nota..." value={description}
+              onChange={(e) => setDescription(e.target.value)} ></textarea>
+          </div>
+          {/*FIm Formulário Para Criar Tarefas */}
+        </form> :
+
+        <form action="" method="post" onSubmit={handleSubmit}>
+          {/* Formulário Para Criar Tarefas */}
+          <div>
+            <input
+              type="hidden"
+              name="id"
+              value={onUpdateData?.id || ""}
+            />
+            <input
+              type="text"
+              placeholder="Título"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
 
 
-          {isFavorite ?
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
-              <path d="M7.47998 7.50375L2.32617 8.29666L6.88529 11.9638L5.69595 17.5141L9.85865 14.3425L15.0125 17.5141L13.6249 11.9638L17.4903 8.29666L12.2373 7.50375L9.85865 2.34995L7.47998 7.50375Z" fill="#FFA000" />
-              <path d="M9.93799 13.7112L6.29971 15.9077L7.25766 11.7662L4.04514 8.97947L8.28335 8.62145L9.93799 4.71223L11.5926 8.62145L15.8308 8.97947L12.6183 11.7662L13.5763 15.9077M19.6143 7.76026L12.657 7.17001L9.93799 0.754639L7.21896 7.17001L0.261719 7.76026L5.53529 12.3371L3.95805 19.1396L9.93799 15.5303L15.9179 19.1396L14.331 12.3371L19.6143 7.76026Z" fill="#455A64" />
-            </svg>
-            :
-            <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
-              <path d="M9.93799 13.2503L6.29971 15.4469L7.25766 11.3054L4.04514 8.51865L8.28335 8.16063L9.93799 4.25142L11.5926 8.16063L15.8308 8.51865L12.6183 11.3054L13.5763 15.4469M19.6143 7.29944L12.657 6.70919L9.93799 0.293823L7.21896 6.70919L0.261719 7.29944L5.53529 11.8763L3.95805 18.6787L9.93799 15.0695L15.9179 18.6787L14.331 11.8763L19.6143 7.29944Z" fill="#455A64" />
-            </svg>
-          }
+            {isFavorite ?
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
+                <path d="M7.47998 7.50375L2.32617 8.29666L6.88529 11.9638L5.69595 17.5141L9.85865 14.3425L15.0125 17.5141L13.6249 11.9638L17.4903 8.29666L12.2373 7.50375L9.85865 2.34995L7.47998 7.50375Z" fill="#FFA000" />
+                <path d="M9.93799 13.7112L6.29971 15.9077L7.25766 11.7662L4.04514 8.97947L8.28335 8.62145L9.93799 4.71223L11.5926 8.62145L15.8308 8.97947L12.6183 11.7662L13.5763 15.9077M19.6143 7.76026L12.657 7.17001L9.93799 0.754639L7.21896 7.17001L0.261719 7.76026L5.53529 12.3371L3.95805 19.1396L9.93799 15.5303L15.9179 19.1396L14.331 12.3371L19.6143 7.76026Z" fill="#455A64" />
+              </svg>
+              :
+              <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={ToggleIsFavorite}>
+                <path d="M9.93799 13.2503L6.29971 15.4469L7.25766 11.3054L4.04514 8.51865L8.28335 8.16063L9.93799 4.25142L11.5926 8.16063L15.8308 8.51865L12.6183 11.3054L13.5763 15.4469M19.6143 7.29944L12.657 6.70919L9.93799 0.293823L7.21896 6.70919L0.261719 7.29944L5.53529 11.8763L3.95805 18.6787L9.93799 15.0695L15.9179 18.6787L14.331 11.8763L19.6143 7.29944Z" fill="#455A64" />
+              </svg>
+            }
 
-        </div>
-        <div>
-          <textarea name="" id="" placeholder="Criar nota..." ref={descriptionRef}></textarea>
-        </div>
-        {/*FIm Formulário Para Criar Tarefas */}
-      </form>
+          </div>
+          <div>
+            <textarea
+              placeholder="Criar nota..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+          {/*FIm Formulário Para Criar Tarefas */}
+        </form>
+      }
 
       <main className={styles.main}>
         <p style={{ flex: 'none' }}>Favorito</p>
@@ -219,7 +279,7 @@ const TasksPage = () => {
               <Card key={value.id} color={value.color}>
                 <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
                 <CardBody data={value} />
-                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
+                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} handleUpdate={() => handleUpdate(value)} /> {/* Passa o ID do cartão */}
                 {openCardId === value.id ?
                   <CardColor key={value.id}>
                     {colors.map((color) => <CardColorItems key={value.id} color={color} onclick={() => handleCorlor(value.id, color)} />)}
@@ -240,7 +300,7 @@ const TasksPage = () => {
               <Card key={value.id} color={value.color}>
                 <CardHeader data={value} handleIsFavorite={() => handleisFavorito(value.id)} />
                 <CardBody data={value} />
-                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} /> {/* Passa o ID do cartão */}
+                <CardFooter onClick={() => toggleOpen(value.id)} handleDelete={() => handleDelete(value.id)} handleUpdate={() => handleUpdate(value)} /> {/* Passa o ID do cartão */}
                 {openCardId === value.id ?
                   <CardColor key={value.id}>
                     {colors.map((color) => <CardColorItems key={value.id} color={color} onclick={() => handleCorlor(value.id, color)} />)}
