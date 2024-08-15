@@ -122,5 +122,29 @@ Nota: O projecto utilizou o React  + Vite para inicialização, o projecto vai i
 
 
 
+# Usar a apicação
+
+## Criar Tarefa
+- Escreve um titulo
+- Escreva uma nota
+  Para enviar Vai até ao tittulo preciona Entrer
+  
+![criarTarefa](https://github.com/user-attachments/assets/9be9d64a-ab49-407e-b82f-6e4f5c6fb682)
+
+
+
+## Editar uma Nota 
+
+- Vai clica no lapis de um cartão
+- Os dados vão aparecer no formulario acima podes fazer alteração conforme a criação da nota
+
+## Alterar Os compos
+
+- 
+
+
+
+
+
 
 
